@@ -1247,10 +1247,10 @@ function getHistoricButtons() {
 
 
 
-client.login("MTAzNjIyMDI2NjgwNTc0MzY1Ng.GOUbbc.vvtHN_-rBrYwh2Df5IHU-2m7NJW2vImOhfqOsE");
+client.login(process.env.DISCORD_TOKEN);
 
 
 // connect to mongodb and log if connected
 (async () => {
-    await connect("mongodb+srv://discordbot:MuKa3p0kISOBNXEj@datacluster.f5bidam.mongodb.net/?retryWrites=true&w=majority").catch(console.error);
+    await connect(process.env.MONGO_TOKEN).catch(console.error);
 })();
