@@ -33,6 +33,20 @@ const { Client, Collection, GatewayIntentBits , Events , EmbedBuilder , Permissi
 const client = new Client({ intents: [GatewayIntentBits.Guilds , GatewayIntentBits.GuildMessages, GatewayIntentBits.MessageContent] });
 const prefix = '!';
 
+// For events
+const eventsPath = path.join(__dirname, 'events');
+const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
+
+for (const file of eventFiles) {
+	const filePath = path.join(eventsPath, file);
+	const event = require(filePath);
+	if (event.once) {
+		client.once(event.name, (...args) => event.execute(...args));
+	} else {
+		client.on(event.name, (...args) => event.execute(...args));
+	}
+}
+
 // For commands
 client.commands = new Collection();
 
@@ -77,9 +91,6 @@ client.on('ready', () => {
     // log the ready message
     console.log(`Logged in as ${client.user.tag}!`);
     console.log(`Ready at ${hour}:${min}:${sec}`);
-
-	// Presence message
-	// client.user.setActivity({ type: ActivityType.Watching, name: "!help for all commands" });
 });
 
 client.on("messageCreate" , (message) => {
@@ -96,13 +107,6 @@ client.on("messageCreate" , (message) => {
     
 
     // Commands
-
-    if (command === "test") {
-        // delete the command message
-        message.delete();
-
-        message.channel.send("bot is working !!!");
-    }
 
     // add a help command
     if (command === "help") {
