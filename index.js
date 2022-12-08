@@ -1216,7 +1216,6 @@ function updateEmbed(user, rank, win, draw, loose) {
 }
 
 
-//TODO HISTORIC
 function saveHistoric(oldRank , newRank , userName , win , draw , loose) {
 
     new Schema (
