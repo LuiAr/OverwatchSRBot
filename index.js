@@ -64,34 +64,6 @@ for (const file of commandFiles) {
 	}
 }
 
-client.on(Events.InteractionCreate, async interaction => {
-	if (!interaction.isChatInputCommand()) return;
-
-	const command = interaction.client.commands.get(interaction.commandName);
-
-	if (!command) {
-		console.error(`No command matching ${interaction.commandName} was found.`);
-		return;
-	}
-
-	try {
-		await command.execute(interaction);
-	} catch (error) {
-		console.error(error);
-		await interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
-	}
-});
-
-client.on('ready', () => {
-    // get the hour, min and sec
-    const date = new Date();
-    const hour = date.getHours();
-    const min = date.getMinutes();
-    const sec = date.getSeconds();
-    // log the ready message
-    console.log(`Logged in as ${client.user.tag}!`);
-    console.log(`Ready at ${hour}:${min}:${sec}`);
-});
 
 client.on("messageCreate" , (message) => {
     if (!message.content.startsWith(prefix) || message.author.bot) return;
@@ -107,36 +79,6 @@ client.on("messageCreate" , (message) => {
     
 
     // Commands
-
-    // add a help command
-    if (command === "help") {
-        // delete the command message
-        message.delete();
-
-        const helpEmbed = new EmbedBuilder()
-        .setColor('#fc5203')
-        .setTitle(`🔎 Help 🔍`)
-        .setAuthor({ name: 'OW2 Rank tracker', iconURL: 'https://styles.redditmedia.com/t5_34fcr/styles/communityIcon_5n4pxtg9zlt91.jpg?width=256&format=pjpg&s=cf689284906c2c6779f56d4b60d79eed6ab313b7', url: 'https://styles.redditmedia.com/t5_34fcr/styles/communityIcon_5n4pxtg9zlt91.jpg?width=256&format=pjpg&s=cf689284906c2c6779f56d4b60d79eed6ab313b7' })        .addFields(
-            { name: 'Commands', value: '```!tracksr PSEUDO``` ```!invite``` ```!adduser``` ```!historic```', inline: true },
-            { name: 'Example', value: '```!tracksr Sh0wny``` ```Add the bot to your server !``` ```Start track your stats !``` ```!historic Sh0wny```', inline: true },
-        )
-        .setFooter({ text: 'made by @Sh0wny#3549', iconURL: 'https://cdn.discordapp.com/avatars/176945428955267073/37cd59ed3485910a859f4c5114d8eed0.png?size=1024' });
-        message.channel.send({ embeds: [helpEmbed]});
-    }
-
-
-    // create a command that delete all messages in the channel
-    if (command === "clear") {
-        // delete the command message
-        message.delete();
-
-        if (!args[0]) return message.channel.send("Please specify the number of messages to delete");
-        if (isNaN(args[0])) return message.channel.send("Please specify a real number");
-        if (args[0] > 100) return message.channel.send("You can't delete more than 100 messages");
-        if (args[0] < 1) return message.channel.send("You have to delete at least 1 message");  
-        message.channel.bulkDelete(args[0]);
-        message.channel.send(`I deleted ${args[0]} messages`).then(msg => msg.delete({ timeout: 5000 }));
-    }
 
     // get database infos
     if (command === "infos") {
