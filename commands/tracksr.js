@@ -1,4 +1,4 @@
-const { SlashCommandBuilder , EmbedBuilder } = require('discord.js');
+const { SlashCommandBuilder , EmbedBuilder , ActionRowBuilder } = require('discord.js');
 
 // MONGO
 const {connect , Schema, model} = require('mongoose');
