@@ -212,70 +212,70 @@ client.on("messageCreate" , (message) => {
 
     }
  
-    // // RANK TRACKER
-    // if (command === "tracksr") {
-    //     // delete the command message
-    //     message.delete();
+    // RANK TRACKER
+    if (command === "tracksr") {
+        // delete the command message
+        message.delete();
 
-    //     // if no args return and send a message
-    //     if (!args[0]) return message.reply("Please specify the user !");
+        // if no args return and send a message
+        if (!args[0]) return message.reply("Please specify the user !");
 
-    //     // get the user name 
-    //     const userInput = args[0];
+        // get the user name 
+        const userInput = args[0];
 
-    //     // Title
-    //     var title = `🔎 ${userInput} 🔍`;
+        // Title
+        var title = `🔎 ${userInput} 🔍`;
 
-    //     // get users from db
-    //     new Schema (
-    //         { url: String, text: String, id: Number},
-    //         { collection : 'OverwatchSR' });
+        // get users from db
+        new Schema (
+            { url: String, text: String, id: Number},
+            { collection : 'OverwatchSR' });
 
-    //     const OverwatchSR = model('OverwatchSR.users', OverwatchSRSchema);
+        const OverwatchSR = model('OverwatchSR.users', OverwatchSRSchema);
 
-    //     // get all users
-    //     const users = OverwatchSR.find({}, function(err, users) {
-    //         if (err) throw err;
-    //         userNames = [];
-    //         users.forEach(user => {
-    //             userNames.push(user.name);
-    //         });
-    //         if (userNames.includes(userInput)) {
-    //             // get the user from db
-    //             const user = OverwatchSR.find({name: userInput}, function(err, users) {
-    //                 if (err) throw err;
-    //                 users.forEach(user => {
-    //                     // get the user rank
-    //                     const rank = user.rank;
-    //                     // get the user win
-    //                     const win = user.win;
-    //                     // get the user draw
-    //                     const draw = user.draw;
-    //                     // get the user loose
-    //                     const loose = user.loose;
-    //                     // get the user total
-    //                     const total = win + draw + loose;
-    //                     // get the user winrate
-    //                     const winrate = Math.round((win / total) * 100);
-    //                     // create the embed message
-    //                     const embed = createEmbed(userInput, rank, win, draw, loose);
-    //                     const buttons = createButton();
-    //                     // send the embed message
-    //                     message.channel.send({ embeds: [embed] , components: [buttons] });
-    //                 }
-    //                 );
-    //             }
-    //             );
-    //         }
-    //         else {
-    //             // tell user that user not exist in db and delete after few seconds
-    //             message.channel.send(`User not in database, to add one --> !adduser ${userInput}`).then(msg => {
-    //                 setTimeout(() => msg.delete(), 5000)
-    //             }
-    //             );
-    //         }
-    //     });
-    // }
+        // get all users
+        const users = OverwatchSR.find({}, function(err, users) {
+            if (err) throw err;
+            userNames = [];
+            users.forEach(user => {
+                userNames.push(user.name);
+            });
+            if (userNames.includes(userInput)) {
+                // get the user from db
+                const user = OverwatchSR.find({name: userInput}, function(err, users) {
+                    if (err) throw err;
+                    users.forEach(user => {
+                        // get the user rank
+                        const rank = user.rank;
+                        // get the user win
+                        const win = user.win;
+                        // get the user draw
+                        const draw = user.draw;
+                        // get the user loose
+                        const loose = user.loose;
+                        // get the user total
+                        const total = win + draw + loose;
+                        // get the user winrate
+                        const winrate = Math.round((win / total) * 100);
+                        // create the embed message
+                        const embed = createEmbed(userInput, rank, win, draw, loose);
+                        const buttons = createButton();
+                        // send the embed message
+                        message.channel.send({ embeds: [embed] , components: [buttons] });
+                    }
+                    );
+                }
+                );
+            }
+            else {
+                // tell user that user not exist in db and delete after few seconds
+                message.channel.send(`User not in database, to add one --> !adduser ${userInput}`).then(msg => {
+                    setTimeout(() => msg.delete(), 5000)
+                }
+                );
+            }
+        });
+    }
     
 })
 
