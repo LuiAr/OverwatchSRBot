@@ -40,7 +40,7 @@ module.exports = {
 				.setRequired(true)),
 	async execute(interaction) {
 		const OverwatchSR = model('OverwatchSR.users', OverwatchSRSchema);
-		const user = interaction.options.getString('user');
+		const userArg = interaction.options.getString('user');
 
         OverwatchSR.find({}, async function(err, users) {
             if (err) throw err;
@@ -49,8 +49,8 @@ module.exports = {
                 userNames.push(user.name);
             });
             console.log(userNames);
-            if (userNames.includes(args[0])) {
-                OverwatchSR.find({name: user}, async function(err, users) {
+            if (userNames.includes(userArg)) {
+                OverwatchSR.find({name: userArg}, async function(err, users) {
                     if (err) throw err;
                     const user = users[0];
                     // create embed
