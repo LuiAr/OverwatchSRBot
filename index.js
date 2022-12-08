@@ -80,52 +80,6 @@ client.on("messageCreate" , (message) => {
 
     // Commands
 
-    // get database infos
-    if (command === "infos") {
-        // if no args return and send a message
-        if (!args[0]) return message.reply("Please specify the user !");
-
-        new Schema (
-            { url: String, text: String, id: Number}, 
-            { collection : 'OverwatchSR' }
-        );
-
-        const OverwatchSR = model('OverwatchSR.users', OverwatchSRSchema);
-        const user = args[0];
-
-        OverwatchSR.find({}, function(err, users) {
-            if (err) throw err;
-            userNames = [];
-            users.forEach(user => {
-                userNames.push(user.name);
-            });
-            console.log(userNames);
-            if (userNames.includes(args[0])) {
-                OverwatchSR.find({name: user}, function(err, users) {
-                    if (err) throw err;
-                    const user = users[0];
-                    // create embed
-                    const infosEmbed = new EmbedBuilder()
-                    .setColor('#fc5203')
-                    .setTitle(`🔎 Infos for user: ${user.name} 🔍`)
-                    .setAuthor({ name: 'OW2 Rank tracker', iconURL: 'https://styles.redditmedia.com/t5_34fcr/styles/communityIcon_5n4pxtg9zlt91.jpg?width=256&format=pjpg&s=cf689284906c2c6779f56d4b60d79eed6ab313b7', url: 'https://styles.redditmedia.com/t5_34fcr/styles/communityIcon_5n4pxtg9zlt91.jpg?width=256&format=pjpg&s=cf689284906c2c6779f56d4b60d79eed6ab313b7' })
-                    .addFields(
-                        { name: 'Rank', value: `${user.rank}`, inline: false },
-                        { name: 'Win', value: `${user.win}`, inline: false },
-                        { name: 'Draw', value: `${user.draw}`, inline: false },
-                        { name: 'Loose', value: `${user.loose}`, inline: false },
-                    )
-                    .setFooter({ text: 'made by @Sh0wny#3549', iconURL: 'https://cdn.discordapp.com/avatars/176945428955267073/37cd59ed3485910a859f4c5114d8eed0.png?size=1024' });
-                    message.delete();
-                    message.channel.send({ embeds: [infosEmbed]});
-                });
-            }
-            else {
-                message.reply('User not exists');
-            }
-        });
-    }
-
     // Command show historic
     if (command === "historic") {
         // if no args return and send a message
@@ -257,116 +211,74 @@ client.on("messageCreate" , (message) => {
 
 
     }
-
-    // command show database
-    if (command === "showdb") {
-        // delete the command message
-        message.delete();
-
-        new Schema (
-            { url: String, text: String, id: Number},
-            { collection : 'OverwatchSR' });
-
-        const OverwatchSR = model('OverwatchSR.users', OverwatchSRSchema);
-
-        // get all users
-        const users = OverwatchSR.find({}, function(err, users) {
-            if (err) throw err;
-            console.log(users);
-        }
-        );
-    }
-            
-    // command invite
-    if (command === "invite") {
-        // delete the command message
-        message.delete();
-
-        const inviteEmbed = new EmbedBuilder()
-        .setColor('#fc5203')
-        .setTitle(`🔎 Invite 🔍`)
-        .setAuthor({ name: 'OW2 Rank tracker', iconURL: 'https://styles.redditmedia.com/t5_34fcr/styles/communityIcon_5n4pxtg9zlt91.jpg?width=256&format=pjpg&s=cf689284906c2c6779f56d4b60d79eed6ab313b7', url: 'https://styles.redditmedia.com/t5_34fcr/styles/communityIcon_5n4pxtg9zlt91.jpg?width=256&format=pjpg&s=cf689284906c2c6779f56d4b60d79eed6ab313b7' })        .addFields(
-            { name: 'Add the bot to your server !', value: 'Click this button to add the bot to your server and start track your road to TOP500 !!', inline: false },
-        )
-        .setFooter({ text: 'made by @Sh0wny#3549', iconURL: 'https://cdn.discordapp.com/avatars/176945428955267073/37cd59ed3485910a859f4c5114d8eed0.png?size=1024' });
-        const inviteButton = new ActionRowBuilder()
-        .addComponents(
-            new ButtonBuilder()
-            .setStyle("Link")
-            .setLabel('Invite')
-            .setURL('https://discord.com/api/oauth2/authorize?client_id=1036220266805743656&permissions=8&scope=bot%20applications.commands')
-        );
-        message.channel.send({ embeds: [inviteEmbed], components: [inviteButton]});
-    }
  
-    // RANK TRACKER
-    if (command === "tracksr") {
-        // delete the command message
-        message.delete();
+    // // RANK TRACKER
+    // if (command === "tracksr") {
+    //     // delete the command message
+    //     message.delete();
 
-        // if no args return and send a message
-        if (!args[0]) return message.reply("Please specify the user !");
+    //     // if no args return and send a message
+    //     if (!args[0]) return message.reply("Please specify the user !");
 
-        // get the user name 
-        const userInput = args[0];
+    //     // get the user name 
+    //     const userInput = args[0];
 
-        // Title
-        var title = `🔎 ${userInput} 🔍`;
+    //     // Title
+    //     var title = `🔎 ${userInput} 🔍`;
 
-        // get users from db
-        new Schema (
-            { url: String, text: String, id: Number},
-            { collection : 'OverwatchSR' });
+    //     // get users from db
+    //     new Schema (
+    //         { url: String, text: String, id: Number},
+    //         { collection : 'OverwatchSR' });
 
-        const OverwatchSR = model('OverwatchSR.users', OverwatchSRSchema);
+    //     const OverwatchSR = model('OverwatchSR.users', OverwatchSRSchema);
 
-        // get all users
-        const users = OverwatchSR.find({}, function(err, users) {
-            if (err) throw err;
-            userNames = [];
-            users.forEach(user => {
-                userNames.push(user.name);
-            });
-            if (userNames.includes(userInput)) {
-                // get the user from db
-                const user = OverwatchSR.find({name: userInput}, function(err, users) {
-                    if (err) throw err;
-                    users.forEach(user => {
-                        // get the user rank
-                        const rank = user.rank;
-                        // get the user win
-                        const win = user.win;
-                        // get the user draw
-                        const draw = user.draw;
-                        // get the user loose
-                        const loose = user.loose;
-                        // get the user total
-                        const total = win + draw + loose;
-                        // get the user winrate
-                        const winrate = Math.round((win / total) * 100);
-                        // create the embed message
-                        const embed = createEmbed(userInput, rank, win, draw, loose);
-                        const buttons = createButton();
-                        // send the embed message
-                        message.channel.send({ embeds: [embed] , components: [buttons] });
-                    }
-                    );
-                }
-                );
-            }
-            else {
-                // tell user that user not exist in db and delete after few seconds
-                message.channel.send(`User not in database, to add one --> !adduser ${userInput}`).then(msg => {
-                    setTimeout(() => msg.delete(), 5000)
-                }
-                );
-            }
-        });
-    }
+    //     // get all users
+    //     const users = OverwatchSR.find({}, function(err, users) {
+    //         if (err) throw err;
+    //         userNames = [];
+    //         users.forEach(user => {
+    //             userNames.push(user.name);
+    //         });
+    //         if (userNames.includes(userInput)) {
+    //             // get the user from db
+    //             const user = OverwatchSR.find({name: userInput}, function(err, users) {
+    //                 if (err) throw err;
+    //                 users.forEach(user => {
+    //                     // get the user rank
+    //                     const rank = user.rank;
+    //                     // get the user win
+    //                     const win = user.win;
+    //                     // get the user draw
+    //                     const draw = user.draw;
+    //                     // get the user loose
+    //                     const loose = user.loose;
+    //                     // get the user total
+    //                     const total = win + draw + loose;
+    //                     // get the user winrate
+    //                     const winrate = Math.round((win / total) * 100);
+    //                     // create the embed message
+    //                     const embed = createEmbed(userInput, rank, win, draw, loose);
+    //                     const buttons = createButton();
+    //                     // send the embed message
+    //                     message.channel.send({ embeds: [embed] , components: [buttons] });
+    //                 }
+    //                 );
+    //             }
+    //             );
+    //         }
+    //         else {
+    //             // tell user that user not exist in db and delete after few seconds
+    //             message.channel.send(`User not in database, to add one --> !adduser ${userInput}`).then(msg => {
+    //                 setTimeout(() => msg.delete(), 5000)
+    //             }
+    //             );
+    //         }
+    //     });
+    // }
     
 })
 
-//TODO BUTTONS
 client.on('interactionCreate', async interaction => {
     if (!interaction.isButton()) return;
     //! HISTORIC NEXT PAGE
